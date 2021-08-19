@@ -1,0 +1,90 @@
+Puyan Lotfi
+gtg945h
+Homework 3 questions
+
+
+# 2.2. (4 pts.)
+
+An attacker can always hash a new value if the hashing algorithm is known (once the attacker has modified the message). Hopefully there is some secret key involved in the hash so that the there can be some confidence that the person making a valid hash would need to know the key in order to create a valid hash and append it to the end of the message. 
+
+
+# 2.3. (5 pts.)
+
+This really won't be much more secure since it is still a secret key encryption scheme. Although each user has a different key, they would all have to know each other's separate keys to talk. The any one participant in the group would know the secret key of the other 2. Now if each participant had 3 keys, one for communicating with each other participant, maybe then it would be more secure. Still you'd have the problem of someone knowing your secret key: if Bob were to get access to Alice's secret key for communicating with Carol he could masquerade as Alice. Also this method would not be scalable, this is why public key encryption is so useful; users don't need to know everyone else's private key they only need to know their own private key for decrypting messages (and public key for giving to other to encrypt messages) and can acquire public keys from others when ever necessary. 
+
+
+# 2.4. (5 pts.)
+
+If it was possible for a hashing algorithm to make the same message digest of two different messages then the algorithm is not doing it's job of providing a unique small value for a every different message, and in this case digitally signing the digest could be a security implication since the message could be altered yet the hash and the digital signature be the same (which tells others that the message has to be from you, but it could possibly he sabotaged and rewritten as a message that produces the same digest).
+
+
+# 3.1. (8 pts.)
+
+A fairly simple and effective way to map 64bit inputs and outputs can be done with some fairly simple position swapping by substitutions and permutations (or even shifting various bits, etc) that is common in some encryption algorithms such as DES. It is important that the mapping is one to one (nothing swaps to the same position) and that there is an inverse substitution scheme to reverse-map the values back the their original positions. 
+
+
+# 3.2. (8 pts.)
+
+Well although I would prefer a device that had several unique keys, the problems says a token card has one unique key. I picture an algorithm that constantly xors various portions of the secret key together every time interval (minutes, hours, whatever gets chosen). Also I think it would be crucial for this algorithm to use time to continue, for example ever minute the algorithm could rearrange chunks of the key and then that with the current key value and then xor this value with time. This way the value will more than likely always be very different at any given time, and even if an attacker tries to exploit the system it would be difficult since the attacker would have to keep up with time. 
+
+Note: keep in mind I am generating a value based on the current time.
+
+
+# 3.3. (8 pts.)
+
+Des works with 64-bit inputs, with one key for each input. If the idea is to use a different key for each input, then the number of keys needed would be: 
+
+                  number of bits in the clear test block / 64
+ 
+
+# 3.5. (8 pts.)
+
+I know exactly what this does because it was actually a bug I had in my des 
+code. I by mistake passed the same src and dest buffer for my permute function
+and  when my permute would initially pad the entire dest buffer with zeros it
+was zeroing out the src buffer which was the entire right half. So this is exactly what was happening: 0 was being xored with the left half. The left stays the same and the right goes back the what it was originally so the output goes back to exactly what it was when it was input.
+
+
+# 4.2. (8 pts.)
+
+K{IV} will not always be repeated first since the blocks are pseudo random and could repeat even if the array isn't saturated (even though it is 2^64 there is still some possibility). But if the random number generator is very random the chances of this happening are lessened (cool fact: the latest FreeBSD asks the user to enter a screen of random garbage to help it generate the entropy file which is used for random number generation on first boot).
+
+
+# 4.4. (8 pts.)
+
+Given a <plaintext, cyphertext> pair you can brute force search through all combinations of <plaintext, cyphertext> pairs. So since this triple des encrypts with the first key, decrypts with the second and then encrypts again all you really need too do is set up a brute force attack where you try various pairs decrypting with the first key encrypting with the second and then decrypting again with the first. 
+
+
+# 4.6. (8 pts.)
+
+It seems that you wouldn't be better off than doing normal CBC encrypts and decrypts. Once the attacker figures out that you are using the encrypt and decrypt algorithms in reverse they can use the same brute force attacks in reverse to attempt to decrypt your message.
+
+
+
+Times for DES and IDEA:
+----------------------
+
+DES:
+
+puyan@okcomputer src% time echo 123456 | ./des.bin 
+Enter input in decimal: 
+Clear  Text (Binary): 0000000000000000000000000000000000000000000000011110001001000000
+Cypher Text (Binary): 0000000000000001111000100100000000010000110110001010100010100110
+
+real    0m0.027s
+user    0m0.010s
+sys     0m0.000s
+
+
+
+IDEA:
+
+puyan@okcomputer src% time echo 123456 | ./idea.bin 
+Enter data in decimal: 
+Clear  Text (Decimal): 123456
+Cypher Text (Decimal): -7490163421094315443
+
+real    0m0.019s
+user    0m0.000s
+sys     0m0.020s
+

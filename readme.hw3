@@ -1,0 +1,25 @@
+
+Compiling the sources:
+----------------------
+
+Once you have untared the tgz cd to the src directory, make des to 
+compile the binary for the des algorithm, make idea to compile the 
+binary for idea and make clean to clean the directory of binaries. 
+
+
+Running the compiled binaries:
+-----------------------------
+
+To run the binaries ./des.bin to run the des algorithm, and 
+./idea.bin to run the idea algorithm. Both will prompt you for
+a decimal input value except des will output the cypher text in
+binary and idea will output it in decimal to the screen. 
+
+------------------------
+
+If there are any conflicts, please email me at gtg945h@mail.gatech.edu.
+The sources were tested in Redhat Linux 9 compiled with gcc 3.2.2 and on Apple's 
+OS X compiled with gcc 3.3 so It should work on almost any BSD or Linux based system.
+
+
+
